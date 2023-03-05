@@ -2,7 +2,8 @@ import torch
 from more_itertools import flatten
 from torch import nn
 from torch.nn.utils.rnn import pad_sequence, pack_padded_sequence, pad_packed_sequence
-from transformers import BertConfig, BertModel, BertTokenizer
+# from transformers import BertConfig, BertModel, BertTokenizer
+from transformers import BartModel as BertModel, BartTokenizer as BertTokenizer, BartConfig as BertConfig
 
 from model.encoder.input_features import encode_input
 

@@ -1,5 +1,5 @@
-from transformers import BertConfig, BertForSequenceClassification, BertTokenizer
-
+# from transformers import BertConfig, BertForSequenceClassification, BertTokenizer
+from transformers import BartModel, BartTokenizer as BertTokenizer, BartConfig as BertConfig
 
 def get_encoder_model(pretrained_model):
     print("load pretrained model/tokenizer for '{}'".format(pretrained_model))

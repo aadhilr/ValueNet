@@ -1,7 +1,8 @@
 import torch
 import torch.nn as nn
 
-from transformers import BertTokenizer, BertModel
+# from transformers import BertTokenizer, BertModel
+from transformers import BartModel as BertModel, BartTokenizer as BertTokenizer
 import collections
 from transformers import WordpieceTokenizer
 from torch.nn.utils.rnn import pad_sequence, pack_padded_sequence, pad_packed_sequence
@@ -30,8 +31,8 @@ class Bert_Layer(nn.Module):
 
     def __init__(self, args):
         super(Bert_Layer, self).__init__()
-        self.tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-        self.encoder = BertModel.from_pretrained('bert-base-uncased')
+        self.tokenizer = BertTokenizer.from_pretrained('facebook/bart-base')
+        self.encoder = BertModel.from_pretrained('facebook/bart-base')
         # self.extend_bert_vocab(self.back_type)
         # for param in self.encoder.embeddings.word_embeddings.parameters():
         #     param.requires_grad = False

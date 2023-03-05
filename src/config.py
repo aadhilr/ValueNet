@@ -27,7 +27,7 @@ def read_arguments_train():
     parser.add_argument('--cuda', default=True, action='store_true')  # TODO: is this really necessary?!
 
     # encoder configuration
-    parser.add_argument('--encoder_pretrained_model', default='bert-base-uncased', type=str)
+    parser.add_argument('--encoder_pretrained_model', default='facebook/bart-base', type=str)
     parser.add_argument('--max_seq_length', default=512, type=int)
 
     parser.add_argument('--num_epochs', default=5.0, type=float)
@@ -88,7 +88,7 @@ def read_arguments_evaluation():
     parser.add_argument('--cuda', default=True, action='store_true')  # TODO: is this really necessary?!
 
     # encoder configuration
-    parser.add_argument('--encoder_pretrained_model', default='bert-base-uncased', type=str)
+    parser.add_argument('--encoder_pretrained_model', default='facebook/bart-base', type=str)
     parser.add_argument('--max_seq_length', default=512, type=int)
 
     # model configuration
@@ -134,7 +134,7 @@ def read_arguments_manual_inference():
     parser.add_argument('--conceptNet', default="data/spider/conceptNet", type=str)
 
     # encoder configuration
-    parser.add_argument('--encoder_pretrained_model', default='bert-base-uncased', type=str)
+    parser.add_argument('--encoder_pretrained_model', default='facebook/bart-base', type=str)
     parser.add_argument('--max_seq_length', default=512, type=int)
 
     # model configuration

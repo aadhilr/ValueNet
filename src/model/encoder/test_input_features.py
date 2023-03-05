@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from transformers import BertTokenizer
+from transformers import BartTokenizer as BertTokenizer
 
 from model.encoder.input_features import encode_input, _tokenize_values
 
@@ -8,7 +8,7 @@ from model.encoder.input_features import encode_input, _tokenize_values
 class Test(TestCase):
     def test_encode_input(self):
         # GIVEN
-        tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+        tokenizer = BertTokenizer.from_pretrained('facebook/bart-base')
 
         question_spans = [[['how'], ['many'], ['table', 'student'], ['are'], ['attending'], ['english'], ['french'], ['table', 'course'], ['?']]]
         column_names = [[['count', 'number', 'many'], ['address', 'id'], ['line', '1'], ['line', '2'], ['city'], ['zip', 'postcode'], ['state', 'province', 'county'], ['country'], ['person', 'id'], ['first', 'name'], ['middle', 'name'], ['last', 'name'], ['cell', 'mobile', 'number'], ['email', 'address'], ['login', 'name'], ['password'], ['student', 'id'], ['student', 'detail'], ['course', 'id'], ['course', 'name'], ['course', 'description'], ['other', 'detail'], ['person', 'address', 'id'], ['date', 'from'], ['date', 'to'], ['registration', 'date'], ['date', 'of', 'attendance'], ['candidate', 'id'], ['candidate', 'detail'], ['qualification'], ['assessment', 'date'], ['asessment', 'outcome', 'code']]]
@@ -28,7 +28,7 @@ class Test(TestCase):
 
     def test_encode_input__empty_values(self):
         # GIVEN
-        tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+        tokenizer = BertTokenizer.from_pretrained('facebook/bart-base')
 
         question_spans = [[['find'], ['all'], ['table', 'player'], ["'"], ['column', 'name', 'first'], ['and'], ['column', 'name', 'last'], ['who'], ['have'], ['empty'], ['death'], ['record'], ['.']]]
         column_names = [[['count', 'number', 'many', '[SEP]'], ['player', 'id', '[SEP]'], ['year', '[SEP]'], ['game', 'num', '[SEP]'], ['game', 'id', '[SEP]'], ['team', 'id', '[SEP]'], ['league', 'id', '[SEP]'], ['gp', '[SEP]'], ['starting', 'po', '[SEP]'], ['g', 'all', '[SEP]'], ['g', '[SEP]'], ['g', 'batting', '[SEP]'], ['g', 'defense', '[SEP]'], ['g', 'p', '[SEP]'], ['g', 'c', '[SEP]'], ['g', '1b', '[SEP]'], ['g', '2b', '[SEP]'], ['g', '3b', '[SEP]'], ['g', 's', '[SEP]'], ['g', 'lf', '[SEP]'], ['g', 'cf', '[SEP]'], ['g', 'rf', '[SEP]'], ['g', 'of', '[SEP]'], ['g', 'dh', '[SEP]'], ['g', 'ph', '[SEP]'], ['g', 'pr', '[SEP]'], ['award', 'id', '[SEP]'], ['tie', '[SEP]'], ['note', '[SEP]'], ['point', 'won', '[SEP]'], ['point', 'max', '[SEP]'], ['vote', 'first', '[SEP]'], ['stint', '[SEP]'], ['g', '[SEP]'], ['ab', '[SEP]'], ['r', '[SEP]'], ['h', '[SEP]'], ['double', '[SEP]'], ['triple', '[SEP]'], ['hr', '[SEP]'], ['rbi', '[SEP]'], ['sb', '[SEP]'], ['c', '[SEP]'], ['bb', '[SEP]'], ['so', '[SEP]'], ['ibb', '[SEP]'], ['hbp', '[SEP]'], ['sh', '[SEP]'], ['sf', '[SEP]'], ['g', 'idp', '[SEP]'], ['round', '[SEP]'], ['college', 'id', '[SEP]'], ['po', '[SEP]'], ['inn', 'out', '[SEP]'], ['po', '[SEP]'], ['a', '[SEP]'], ['e', '[SEP]'], ['dp', '[SEP]'], ['pb', '[SEP]'], ['wp', '[SEP]'], ['zr', '[SEP]'], ['glf', '[SEP]'], ['gcf', '[SEP]'], ['grf', '[SEP]'], ['tp', '[SEP]'], ['yearid', '[SEP]'], ['votedby', '[SEP]'], ['ballot', '[SEP]'], ['needed', '[SEP]'], ['vote', '[SEP]'], ['inducted', '[SEP]'], ['category', '[SEP]'], ['needed', 'note', '[SEP]'], ['park', 'id', '[SEP]'], ['span', 'first', '[SEP]'], ['span', 'last', '[SEP]'], ['game', '[SEP]'], ['opening', '[SEP]'], ['attendance', '[SEP]'], ['inseason', '[SEP]'], ['w', '[SEP]'], ['l', '[SEP]'], ['rank', '[SEP]'], ['plyr', 'mgr', '[SEP]'], ['half', '[SEP]'], ['birth', 'year', '[SEP]'], ['birth', 'month', '[SEP]'], ['birth', 'day', '[SEP]'], ['birth', 'country', '[SEP]'], ['birth', 'state', '[SEP]'], ['birth', 'city', '[SEP]'], ['death', 'year', '[SEP]'], ['death', 'month', '[SEP]'], ['death', 'day', '[SEP]'], ['death', 'country', '[SEP]'], ['death', 'state', '[SEP]'], ['death', 'city', '[SEP]'], ['name', 'first', '[SEP]'], ['name', 'last', '[SEP]'], ['name', 'given', '[SEP]'], ['weight', '[SEP]'], ['height', '[SEP]'], ['bat', '[SEP]'], ['throw', '[SEP]'], ['debut', '[SEP]'], ['final', 'game', '[SEP]'], ['retro', 'id', '[SEP]'], ['bbref', 'id', '[SEP]'], ['park', 'name', '[SEP]'], ['park', 'alias', '[SEP]'], ['city', '[SEP]'], ['state', '[SEP]'], ['country', '[SEP]'], ['cg', '[SEP]'], ['sho', '[SEP]'], ['sv', '[SEP]'], ['ipouts', '[SEP]'], ['er', '[SEP]'], ['baopp', '[SEP]'], ['era', '[SEP]'], ['bk', '[SEP]'], ['bfp', '[SEP]'], ['gf', '[SEP]'], ['salary', '[SEP]'], ['name', 'full', '[SEP]'], ['team', 'id', 'winner', '[SEP]'], ['league', 'id', 'winner', '[SEP]'], ['team', 'id', 'loser', '[SEP]'], ['league', 'id', 'loser', '[SEP]'], ['win', '[SEP]'], ['loss', '[SEP]'], ['tie', '[SEP]'], ['franchise', 'id', '[SEP]'], ['div', 'id', '[SEP]'], ['ghome', '[SEP]'], ['div', 'win', '[SEP]'], ['wc', 'win', '[SEP]'], ['lg', 'win', '[SEP]'], ['w', 'win', '[SEP]'], ['ra', '[SEP]'], ['ha', '[SEP]'], ['hra', '[SEP]'], ['bba', '[SEP]'], ['soa', '[SEP]'], ['fp', '[SEP]'], ['name', '[SEP]'], ['park', '[SEP]'], ['bpf', '[SEP]'], ['ppf', '[SEP]'], ['team', 'id', 'br', '[SEP]'], ['team', 'id', 'lahman45', '[SEP]'], ['team', 'id', 'retro', '[SEP]'], ['franchise', 'name', '[SEP]'], ['active', '[SEP]'], ['na', 'assoc', '[SEP]']]]
@@ -45,7 +45,7 @@ class Test(TestCase):
 
     def test__tokenize_values(self):
         # GIVEN
-        tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+        tokenizer = BertTokenizer.from_pretrained('facebook/bart-base')
 
         values = ['English', 'French']
 
@@ -59,7 +59,7 @@ class Test(TestCase):
 
     def test__tokenize_values__subword_tokenization(self):
         # GIVEN
-        tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+        tokenizer = BertTokenizer.from_pretrained('facebook/bart-base')
 
         values = ['Protoporphyrinogen IX', 'dummy']
 
@@ -73,7 +73,7 @@ class Test(TestCase):
 
     def test__tokenize_values__integer(self):
         # GIVEN
-        tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+        tokenizer = BertTokenizer.from_pretrained('facebook/bart-base')
 
         values = [4]
 
@@ -91,7 +91,7 @@ class Test(TestCase):
 
     def test__tokenize_values__float(self):
         # GIVEN
-        tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+        tokenizer = BertTokenizer.from_pretrained('facebook/bart-base')
 
         values = ['4.5']
 
@@ -108,7 +108,7 @@ class Test(TestCase):
 
     def test__tokenize_values__date(self):
         # GIVEN
-        tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+        tokenizer = BertTokenizer.from_pretrained('facebook/bart-base')
 
         values = ['2002-06-21']
 
@@ -125,7 +125,7 @@ class Test(TestCase):
 
     def test__tokenize_values__fuzzy_strings(self):
         # GIVEN
-        tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+        tokenizer = BertTokenizer.from_pretrained('facebook/bart-base')
 
         values = ['%superstar%']
 
@@ -142,7 +142,7 @@ class Test(TestCase):
 
     def test__tokenize_values__empty_string(self):
         # GIVEN
-        tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+        tokenizer = BertTokenizer.from_pretrained('facebook/bart-base')
 
         values = ['']
 

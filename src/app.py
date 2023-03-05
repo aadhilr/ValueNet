@@ -12,7 +12,7 @@ class args:
     batch_size=1
     cuda=False
     conceptNet='../data/spider/conceptNet'
-    encoder_pretrained_model='bert-base-uncased'
+    encoder_pretrained_model='facebook/bart-base'
     max_seq_length=512
     column_pointer=True
     embed_size=300

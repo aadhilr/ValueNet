@@ -1,5 +1,6 @@
 import torch
-from transformers import BertConfig, BertModel, BertTokenizer
+# from transformers import BertConfig, BertModel, BertTokenizer
+from transformers import BartModel as BertModel, BartTokenizer as BertTokenizer, BartConfig as BertConfig
 
 from model.encoder.temporary.bert_enc import Bert_Layer
 from model.encoder.encoder import TransformerEncoder
@@ -12,8 +13,8 @@ from utils import setup_device, set_seed_everywhere
 
 
 config_class, model_class, tokenizer_class = (BertConfig, BertModel, BertTokenizer)
-config = config_class.from_pretrained("bert-base-uncased")
-tokenizer = tokenizer_class.from_pretrained("bert-base-uncased")
+config = config_class.from_pretrained("facebook/bart-base")
+tokenizer = tokenizer_class.from_pretrained("facebook/bart-base")
 
 question = [['what'], ['are'], ['name'], ['of'], ['all'], ['column', 'state'], ['with'], ['table', 'college'], ['student'], ['playing'], ['in'], ['mid'], ['position'], ['but'], ['no'], ['goal'], ['?']]
 question2 = [['what'], ['are'], ['name'], ['of'], ['all'], ['column', 'state'], ['with'], ['table', 'college'], ['student'], ['playing'], ['in'], ['mid'], ['position'], ['?']]
@@ -25,7 +26,7 @@ columns2 = [['count', 'number', 'many'], ['college', 'name'], ['state'], ['enrol
 device, n_gpu = setup_device()
 set_seed_everywhere(42, n_gpu)
 
-encoder = TransformerEncoder('bert-base-uncased', device, 512, 300, 300)
+encoder = TransformerEncoder('facebook/bart-base', device, 512, 300, 300)
 encoder.to(device)
 
 last_layer = encoder([question, question2], [columns, columns2], [tables, tables2])
