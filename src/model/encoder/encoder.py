@@ -58,7 +58,9 @@ class TransformerEncoder(nn.Module):
         # while the "last_hidden-states" is one hidden state per input token, the pooler_output is the hidden state of the [CLS]-token, further processed.
         # See e.g. "BertModel" documentation for more information.
 
-        last_hidden_states, pooling_output = self.transformer_model(input_ids_tensor, attention_mask_tensor, segment_ids_tensor)
+        # last_hidden_states, pooling_output = self.transformer_model(input_ids_tensor, attention_mask_tensor, segment_ids_tensor)
+        last_hidden_states = self.transformer_model(input_ids_tensor, attention_mask_tensor,
+                                                                    segment_ids_tensor)
 
         (all_question_span_lengths, all_column_token_lengths, all_table_token_lengths, all_value_token_lengths) = input_lengths
 
@@ -121,7 +123,8 @@ class TransformerEncoder(nn.Module):
         else:
             value_out_padded = torch.zeros(table_out_padded.shape[0], 0, table_out_padded.shape[2]).to(self.device)
 
-        return question_out, column_out_padded, table_out_padded, value_out_padded, pooling_output
+        # return question_out, column_out_padded, table_out_padded, value_out_padded, pooling_output
+        return question_out, column_out_padded, table_out_padded, value_out_padded
 
     @staticmethod
     def _average_hidden_states_question(last_hidden_states, all_question_span_lengths):

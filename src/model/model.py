@@ -111,7 +111,11 @@ class IRNet(BasicModel):
         table_appear_mask = batch.table_appear_mask
 
         # We use our transformer encoder to encode question together with the schema (columns and tables). See "TransformerEncoder" for details
-        question_encodings, column_encodings, table_encodings, value_encodings, transformer_pooling_output = self.encoder(batch.src_sents,
+        # question_encodings, column_encodings, table_encodings, value_encodings, transformer_pooling_output = self.encoder(batch.src_sents,
+        #                                                                                                                   batch.table_sents,
+        #                                                                                                                   batch.table_names,
+        #                                                                                                                   batch.values)
+        question_encodings, column_encodings, table_encodings, value_encodings = self.encoder(batch.src_sents,
                                                                                                                           batch.table_sents,
                                                                                                                           batch.table_names,
                                                                                                                           batch.values)
@@ -122,7 +126,8 @@ class IRNet(BasicModel):
         # Source encodings to create the leaf-nodes
         utterance_encodings_lf_linear = self.att_lf_linear(question_encodings)
 
-        dec_init_vec = self.init_decoder_state(transformer_pooling_output)
+        # dec_init_vec = self.init_decoder_state(transformer_pooling_output)
+        dec_init_vec = self.init_decoder_state()
         h_tm1 = dec_init_vec
         action_probs = [[] for _ in examples]
 
@@ -939,8 +944,14 @@ class IRNet(BasicModel):
         else:
             return (h_t, cell_t), att_t
 
-    def init_decoder_state(self, enc_last_cell):
-        h_0 = self.decoder_cell_init(enc_last_cell)
+    # def init_decoder_state(self, enc_last_cell):
+    #     h_0 = self.decoder_cell_init(enc_last_cell)
+    #     h_0 = torch.tanh(h_0)
+    #
+    #     return h_0, Variable(self.new_tensor(h_0.size()).zero_())
+
+    def init_decoder_state(self):
+        h_0 = self.decoder_cell_init()
         h_0 = torch.tanh(h_0)
 
         return h_0, Variable(self.new_tensor(h_0.size()).zero_())
