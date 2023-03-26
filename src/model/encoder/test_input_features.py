@@ -16,13 +16,13 @@ class Test(TestCase):
         values = [['English', 'French']]
 
         # WHEN
-        input_ids_tensor, attention_mask_tensor, segment_ids_tensor, input_lengths = encode_input(question_spans, column_names, table_names, values, tokenizer, 512, 'cpu')
+        input_ids_tensor, attention_mask_tensor, input_lengths = encode_input(question_spans, column_names, table_names, values, tokenizer, 512, 'cpu')
 
         question_span_lengths, column_token_lengths, table_token_lengths, values_lengths = input_lengths
 
         # THEN
         self.assertEqual(len(input_ids_tensor[0]), len(attention_mask_tensor[0]))
-        self.assertEqual(len(input_ids_tensor[0]), len(segment_ids_tensor[0]))
+        # self.assertEqual(len(input_ids_tensor[0]), len(segment_ids_tensor[0]))
 
         self.assertEqual(len(input_ids_tensor[0]), sum(question_span_lengths[0]) + sum(column_token_lengths[0]) + sum(table_token_lengths[0]) + sum(values_lengths[0]))
 
@@ -36,7 +36,7 @@ class Test(TestCase):
         values = [['']]
 
         # WHEN
-        input_ids_tensor, attention_mask_tensor, segment_ids_tensor, input_lengths = encode_input(question_spans, column_names, table_names, values, tokenizer, 512, 'cpu')
+        input_ids_tensor, attention_mask_tensor, input_lengths = encode_input(question_spans, column_names, table_names, values, tokenizer, 512, 'cpu')
 
         question_span_lengths, column_token_lengths, table_token_lengths, values_lengths = input_lengths
 
