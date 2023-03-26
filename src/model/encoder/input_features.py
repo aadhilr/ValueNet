@@ -67,7 +67,7 @@ def encode_input(question_spans, column_names, table_names, values, tokenizer, m
     segment_ids_tensor = torch.tensor(all_segment_ids, dtype=torch.long).to(device)
     attention_mask_tensor = torch.tensor(all_attention_mask, dtype=torch.long).to(device)
 
-    return input_ids_tensor, attention_mask_tensor, segment_ids_tensor, (all_question_span_lengths, all_column_token_lengths, all_table_token_lengths, all_values_lengths)
+    return input_ids_tensor, attention_mask_tensor, (all_question_span_lengths, all_column_token_lengths, all_table_token_lengths, all_values_lengths)
 
 
 def _tokenize_question(question, tokenizer):
