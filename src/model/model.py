@@ -111,14 +111,14 @@ class IRNet(BasicModel):
         table_appear_mask = batch.table_appear_mask
 
         # We use our transformer encoder to encode question together with the schema (columns and tables). See "TransformerEncoder" for details
-        # question_encodings, column_encodings, table_encodings, value_encodings, transformer_pooling_output = self.encoder(batch.src_sents,
-        #                                                                                                                   batch.table_sents,
-        #                                                                                                                   batch.table_names,
-        #                                                                                                                   batch.values)
-        question_encodings, column_encodings, table_encodings, value_encodings = self.encoder(batch.src_sents,
+        question_encodings, column_encodings, table_encodings, value_encodings, transformer_pooling_output, question_token_lengths = self.encoder(batch.src_sents,
                                                                                                                           batch.table_sents,
                                                                                                                           batch.table_names,
                                                                                                                           batch.values)
+        # question_encodings, column_encodings, table_encodings, value_encodings = self.encoder(batch.src_sents,
+        #                                                                                                                   batch.table_sents,
+        #                                                                                                                   batch.table_names,
+        #                                                                                                                   batch.values)
         question_encodings = self.dropout(question_encodings)
 
         # Source encodings to create the sketch (the AST without the leaf-nodes)
@@ -126,8 +126,8 @@ class IRNet(BasicModel):
         # Source encodings to create the leaf-nodes
         utterance_encodings_lf_linear = self.att_lf_linear(question_encodings)
 
-        # dec_init_vec = self.init_decoder_state(transformer_pooling_output)
-        dec_init_vec = self.init_decoder_state()
+        dec_init_vec = self.init_decoder_state(transformer_pooling_output)
+        # dec_init_vec = self.init_decoder_state()
         h_tm1 = dec_init_vec
         action_probs = [[] for _ in examples]
 
@@ -343,7 +343,8 @@ class IRNet(BasicModel):
 
                 x = torch.cat(inputs, dim=-1)
 
-            src_mask = batch.src_token_mask
+            # src_mask = batch.src_token_mask
+            src_mask = nn_utils.length_array_to_mask_tensor(question_token_lengths, cuda=self.cuda)
 
             # we use a second RNN to predict the next actions for the leaf-nodes. Everything else stays the same as above
             (h_t, cell_t), att_t, aw = self.step(x, h_tm1, question_encodings,
@@ -458,7 +459,7 @@ class IRNet(BasicModel):
         # next lines is exactly the same as in the training case. Encode the source sentence.
 
         # We use our transformer encoder to encode question together with the schema (columns and tables). See "TransformerEncoder" for details
-        question_encodings, column_encodings, table_encodings, value_encodings, transformer_pooling_output = self.encoder(batch.src_sents,
+        question_encodings, column_encodings, table_encodings, value_encodings, transformer_pooling_output, question_token_lengths  = self.encoder(batch.src_sents,
                                                                                                                           batch.table_sents,
                                                                                                                           batch.table_names,
                                                                                                                           batch.values)
